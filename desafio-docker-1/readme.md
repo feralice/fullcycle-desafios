@@ -1,20 +1,22 @@
+## Construindo a imagem
 
-##  Construindo a imagem
-Primeiro, você precisa construir a imagem utilizando o seguinte comando:
+Primeiro, você precisa baixar a imagem do link:
 
-```sh
-docker build -t fernandaalice/fullcycle .
-```
+[Baixar a imagem no Docker Hub](https://hub.docker.com/r/feralice/fullcycle)
 
 ## Executando o container
-Depois, você pode executar o container com a imagem criada anteriormente:
+
+Depois, você pode executar o container com a imagem baixada:
 
 ```sh
-docker run fernandaalice/fullcycle
+docker run feralice/fullcycle
 ```
+
 Na saída do terminal deverá aparecer **Full Cycle Rocks!!**
 
-Para ver o tamanho da imagem construída, dê o comando:
+Para ver o tamanho da imagem construída, execute o comando:
+
 ```sh
-docker images | grep fernandaalice/fullcycle
+docker images | grep feralice/fullcycle
 ```
+
