@@ -1,0 +1,64 @@
+version: '3.8'
+
+services:
+  sql_db:
+    image: mysql:latest
+    container_name: sql_db
+    environment:
+      - MYSQL_DATABASE=nodedb
+      - MYSQL_ROOT_PASSWORD=root
+    ports:
+      - '3306:3306'
+    networks:
+      - default-network
+    volumes:
+      - db_data:/var/lib/mysql
+    restart: always
+
+
+  node:
+    build: ./nodejs
+    container_name: node
+    depends_on:
+      - sql_db
+    entrypoint:
+      [
+        'dockerize',
+        '-wait',
+        'tcp://sql_db:3306',
+        '-timeout',
+        '20s',
+        'node',
+        'server.js',
+      ]
+    networks:
+      - default-network
+    environment:
+      - DB_HOST=sql_db
+      - DB_USER=root
+      - DB_PASSWORD=root
+      - DB_NAME=nodedb
+    volumes:
+      - ./nodejs:/usr/src/app
+    working_dir: /usr/src/app
+    restart: always
+
+  nginx:
+    image: nginx:latest
+    container_name: nginx
+    depends_on:
+      - node
+    ports:
+      - '8080:80'
+    networks:
+      - default-network
+    restart: always
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+
+networks:
+  default-network:
+    driver: bridge
+
+volumes:
+  db_data:
