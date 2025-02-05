@@ -15,7 +15,6 @@ services:
       - db_data:/var/lib/mysql
     restart: always
 
-
   node:
     build: ./nodejs
     container_name: node
@@ -40,6 +39,7 @@ services:
       - DB_NAME=nodedb
     volumes:
       - ./nodejs:/usr/src/app
+      - /usr/src/app/node_modules
     working_dir: /usr/src/app
     restart: always
 
